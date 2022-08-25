@@ -9,14 +9,16 @@ app.use(cors());
 app.options("*", cors());
 
 //Routes
-const productRoutes = require("./routes/product");
+const productRoutes = require("./routes/products");
+const categoryRoutes = require("./routes/categories");
 
 const api = process.env.API_URL;
 
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan("tiny"));
 
-app.use(`${api}`, productRoutes);
+app.use(`${api}/products`, productRoutes);
+app.use(`${api}/categories`, categoryRoutes);
 
 main().catch((err) => console.log(err, "ERROR"));
 

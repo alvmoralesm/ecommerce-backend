@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Product = require("../models/product.js");
 
-router.get("/products", async (req, res) => {
+router.get("/", async (req, res) => {
   const products = await Product.find();
 
   if (!products) res.status(500).send({ success: false });
@@ -10,7 +10,7 @@ router.get("/products", async (req, res) => {
   res.send(products);
 });
 
-router.post("/products", (req, res) => {
+router.post("/", (req, res) => {
   const product = new Product({
     name: req.body.name,
     image: req.body.image,
