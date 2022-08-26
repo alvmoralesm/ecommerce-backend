@@ -4,14 +4,6 @@ const Product = require("../models/product.js");
 const Category = require("../models/category.js");
 const mongoose = require("mongoose");
 
-/* router.get("/", async (req, res) => {
-  const products = await Product.find().select("name image ");
-
-  if (!products) res.status(500).send({ success: false });
-
-  res.send(products);
-}); */
-
 router.get("/", async (req, res) => {
   let filter = {};
 

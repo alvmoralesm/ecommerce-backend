@@ -4,21 +4,28 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv/config");
+const authJwt = require("./helpers/jwt");
+const errorHandler = require("./helpers/error-handler");
 
 app.use(cors());
 app.options("*", cors());
 
+const api = process.env.API_URL;
+
+//middlewares
+app.use(express.urlencoded({ extended: false }));
+app.use(morgan("tiny"));
+app.use(authJwt());
+app.use(errorHandler);
+
 //Routes
 const productRoutes = require("./routes/products");
 const categoryRoutes = require("./routes/categories");
-
-const api = process.env.API_URL;
-
-app.use(express.urlencoded({ extended: false }));
-app.use(morgan("tiny"));
+const userRoutes = require("./routes/users");
 
 app.use(`${api}/products`, productRoutes);
 app.use(`${api}/categories`, categoryRoutes);
+app.use(`${api}/users`, userRoutes);
 
 main().catch((err) => console.log(err, "ERROR"));
 
