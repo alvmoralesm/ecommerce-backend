@@ -22,10 +22,12 @@ app.use(errorHandler);
 const productRoutes = require("./routes/products");
 const categoryRoutes = require("./routes/categories");
 const userRoutes = require("./routes/users");
+const orderRoutes = require("./routes/orders");
 
 app.use(`${api}/products`, productRoutes);
 app.use(`${api}/categories`, categoryRoutes);
 app.use(`${api}/users`, userRoutes);
+app.use(`${api}/orders`, orderRoutes);
 
 main().catch((err) => console.log(err, "ERROR"));
 
