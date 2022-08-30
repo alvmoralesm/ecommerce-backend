@@ -1,4 +1,3 @@
-const { Router } = require("express");
 const express = require("express");
 const router = express.Router();
 const Order = require("../models/order");
@@ -95,7 +94,7 @@ router.put("/:id", async (req, res) => {
   res.send(order);
 });
 
-router.get("/get/totalsales/", async (req, res) => {
+router.get("/get/total-sales/", async (req, res) => {
   const totalSales = await Order.aggregate([
     { $group: { _id: null, totalsales: { $sum: "$totalPrice" } } },
   ]);
@@ -116,6 +115,23 @@ router.get("/get/count", async (req, res) => {
   res.send({
     orderCount: orderCount,
   });
+});
+
+router.get("/get/user-orders/:userId", async (req, res) => {
+  const orders = await Order.find({ user: req.params.userId })
+    .populate({
+      path: "orderItems",
+      populate: {
+        path: "product",
+        populate: "category",
+      },
+    })
+    .sort({ dateOrdered: -1 });
+
+  if (!orders) {
+    return res.status(500).json({ success: false });
+  }
+  res.send(orders);
 });
 
 module.exports = router;
